@@ -13,21 +13,27 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Mazes">
+      <UniqueIdentifier>{a0e22f1d-a8d8-49b1-8420-0f29bd345294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CellularAutomata">
+      <UniqueIdentifier>{87267a97-1c8d-4d93-ad79-889b834777a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleGameEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mazes.h">
-      <Filter>Header Files</Filter>
+      <Filter>Mazes</Filter>
+    </ClInclude>
+    <ClInclude Include="CellularAutomata.h">
+      <Filter>CellularAutomata</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mazes.cpp">
-      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

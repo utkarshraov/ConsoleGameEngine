@@ -670,12 +670,12 @@ public:
 		t.join();
 	}
 
-	int ScreenWidth()
+	int WindowWidth()
 	{
 		return windowWidth;
 	}
 
-	int ScreenHeight()
+	int WindowHeight()
 	{
 		return windowHeight;
 	}
