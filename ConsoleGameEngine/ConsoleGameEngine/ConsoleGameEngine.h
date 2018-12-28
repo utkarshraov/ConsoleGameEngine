@@ -275,8 +275,8 @@ public:
 			return Error(L"SetConsoleMode");
 
 		// Allocate memory for screen buffer
-		m_bufScreen = new CHAR_INFO[windowWidth*windowHeight];
-		memset(m_bufScreen, 0, sizeof(CHAR_INFO) * windowWidth * windowHeight);
+		buffScreen = new CHAR_INFO[windowWidth*windowHeight];
+		memset(buffScreen, 0, sizeof(CHAR_INFO) * windowWidth * windowHeight);
 
 		SetConsoleCtrlHandler((PHANDLER_ROUTINE)CloseHandler, TRUE);
 		return 1;
@@ -287,8 +287,8 @@ public:
 	{
 		if (x >= 0 && x < windowWidth && y >= 0 && y < windowHeight)
 		{
-			m_bufScreen[y * windowWidth + x].Char.UnicodeChar = c;
-			m_bufScreen[y * windowWidth + x].Attributes = col;
+			buffScreen[y * windowWidth + x].Char.UnicodeChar = c;
+			buffScreen[y * windowWidth + x].Attributes = col;
 		}
 	}
 
@@ -305,8 +305,8 @@ public:
 	{
 		for (size_t i = 0; i < c.size(); i++)
 		{
-			m_bufScreen[y * windowWidth + x + i].Char.UnicodeChar = c[i];
-			m_bufScreen[y * windowWidth + x + i].Attributes = col;
+			buffScreen[y * windowWidth + x + i].Char.UnicodeChar = c[i];
+			buffScreen[y * windowWidth + x + i].Attributes = col;
 		}
 	}
 
@@ -316,8 +316,8 @@ public:
 		{
 			if (c[i] != L' ')
 			{
-				m_bufScreen[y * windowWidth + x + i].Char.UnicodeChar = c[i];
-				m_bufScreen[y * windowWidth + x + i].Attributes = col;
+				buffScreen[y * windowWidth + x + i].Char.UnicodeChar = c[i];
+				buffScreen[y * windowWidth + x + i].Attributes = col;
 			}
 		}
 	}
@@ -656,7 +656,7 @@ public:
 	~ConsoleGameEngine()
 	{
 		SetConsoleActiveScreenBuffer(m_hOriginalConsole);
-		delete[] m_bufScreen;
+		delete[] buffScreen;
 	}
 
 public:
@@ -817,7 +817,7 @@ private:
 				wchar_t s[256];
 				swprintf_s(s, 256, L"%s - FPS: %3.2f", appName.c_str(), 1.0f / fElapsedTime);
 				SetConsoleTitle(s);
-				WriteConsoleOutput(console, m_bufScreen, { (short)windowWidth, (short)windowHeight }, { 0,0 }, &rectWindow);
+				WriteConsoleOutput(console, buffScreen, { (short)windowWidth, (short)windowHeight }, { 0,0 }, &rectWindow);
 			}
 
 			//if (m_bEnableSound)
@@ -829,7 +829,7 @@ private:
 			if (OnUserDestroy())
 			{
 				// User has permitted destroy, so exit and clean up
-				delete[] m_bufScreen;
+				delete[] buffScreen;
 				SetConsoleActiveScreenBuffer(m_hOriginalConsole);
 				gameFinished.notify_one();
 			}
@@ -900,7 +900,7 @@ protected:
 protected:
 	int windowWidth;
 	int windowHeight;
-	CHAR_INFO *m_bufScreen;
+	CHAR_INFO *buffScreen;
 	std::wstring appName;
 	HANDLE m_hOriginalConsole;
 	CONSOLE_SCREEN_BUFFER_INFO m_OriginalConsoleInfo;
@@ -919,7 +919,3 @@ protected:
 	static std::condition_variable gameFinished;
 	static std::mutex muxGame;
 };
-// Define our static variables
-std::atomic<bool> ConsoleGameEngine::atomActive(false);
-std::condition_variable ConsoleGameEngine::gameFinished;
-std::mutex ConsoleGameEngine::muxGame;
