@@ -183,7 +183,9 @@ public:
 		Fill(0, 0, windowWidth, windowHeight, ' ');
 
 		for(auto ball:balls)
-			DrawWireFrameModel(circleModel, ball.position.x, ball.position.y, atan2f(ball.velocity.y, ball.velocity.x), ball.radius, FG_WHITE);
+			DrawCircle(ball.position.x, ball.position.y, ball.radius, PIXEL_SOLID, FG_WHITE);
+
+
 		for (auto coll : collidingPairs)
 		{
 			//draw red line between colliding spheres so it looks cool

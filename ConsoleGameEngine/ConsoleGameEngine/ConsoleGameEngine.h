@@ -59,6 +59,7 @@ enum PIXEL_TYPE
 	PIXEL_QUARTER = 0x2591,
 };
 
+//Vector2 class with some helper functions
 class Vector2
 {
 public: 
@@ -298,12 +299,11 @@ public:
 		cfi.FontFamily = FF_DONTCARE;
 		cfi.FontWeight = FW_NORMAL;
 
-		wcscpy_s(cfi.FaceName, L"Consolas");
+		wcscpy_s(cfi.FaceName, L"Consolas"); //it's got to be this for a bunch of my code to work
 		if (!SetCurrentConsoleFontEx(console, false, &cfi))
 			return Error(L"SetCurrentConsoleFontEx");
 
-		// Get screen buffer info and check the maximum allowed window size. Return
-		// error if exceeded, so user knows their dimensions/fontsize are too large
+		// check the buffer and screen size to check if the desired window is too big
 		CONSOLE_SCREEN_BUFFER_INFO csbi;
 		if (!GetConsoleScreenBufferInfo(console, &csbi))
 			return Error(L"GetConsoleScreenBufferInfo");
@@ -332,6 +332,7 @@ public:
 
 	virtual void Draw(int x, int y, short c = 0x2588, short col = 0x000F)
 	{
+		//draw a pixel
 		if (x >= 0 && x < windowWidth && y >= 0 && y < windowHeight)
 		{
 			buffScreen[y * windowWidth + x].Char.UnicodeChar = c;
@@ -341,6 +342,7 @@ public:
 
 	void Fill(int x1, int y1, int x2, int y2, short c = 0x2588, short col = 0x000F)
 	{
+		//fill in an area with a colour TO DO: use vector2??
 		Clip(x1, y1);
 		Clip(x2, y2);
 		for (int x = x1; x < x2; x++)
@@ -350,6 +352,7 @@ public:
 
 	void DrawString(int x, int y, std::wstring c, short col = 0x000F)
 	{
+		//draw string at position
 		for (size_t i = 0; i < c.size(); i++)
 		{
 			buffScreen[y * windowWidth + x + i].Char.UnicodeChar = c[i];
@@ -357,20 +360,9 @@ public:
 		}
 	}
 
-	void DrawStringAlpha(int x, int y, std::wstring c, short col = 0x000F)
-	{
-		for (size_t i = 0; i < c.size(); i++)
-		{
-			if (c[i] != L' ')
-			{
-				buffScreen[y * windowWidth + x + i].Char.UnicodeChar = c[i];
-				buffScreen[y * windowWidth + x + i].Attributes = col;
-			}
-		}
-	}
-
 	void Clip(int &x, int &y)
 	{
+		//bounds checking
 		if (x < 0) x = 0;
 		if (x >= windowWidth) x = windowWidth;
 		if (y < 0) y = 0;
@@ -379,6 +371,8 @@ public:
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0x2588, short col = 0x000F)
 	{
+		//draw a line between two points
+		//TO DO: use vector2 instead of separate floats (or is that no worth it??)
 		int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
 		dx = x2 - x1; dy = y2 - y1;
 		dx1 = abs(dx); dy1 = abs(dy);
@@ -439,6 +433,7 @@ public:
 
 	void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F)
 	{
+		//super easy bc a triangle is 3 lines
 		DrawLine(x1, y1, x2, y2, c, col);
 		DrawLine(x2, y2, x3, y3, c, col);
 		DrawLine(x3, y3, x1, y1, c, col);
@@ -447,6 +442,7 @@ public:
 	// Found on the internet and slightly modified
 	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F)
 	{
+		//colour in the triangle
 		auto SWAP = [](int &x, int &y) { int t = x; x = y; y = t; };
 		auto drawline = [&](int sx, int ex, int ny) { for (int i = sx; i <= ex; i++) Draw(i, ny, c, col); };
 
@@ -506,7 +502,7 @@ public:
 				e2 += dy2;
 				while (e2 >= dx2) {
 					e2 -= dx2;
-					if (changed2) t2xp = signx2;//t2x += signx2;
+					if (changed2) t2xp = signx2;
 					else          goto next2;
 				}
 				if (changed2)     break;
@@ -516,7 +512,7 @@ public:
 			if (minx > t1x) minx = t1x; if (minx > t2x) minx = t2x;
 			if (maxx < t1x) maxx = t1x; if (maxx < t2x) maxx = t2x;
 			drawline(minx, maxx, y);    // Draw line from min to max points found on the y
-										 // Now increase y
+
 			if (!changed1) t1x += signx1;
 			t1x += t1xp;
 			if (!changed2) t2x += signx2;
@@ -549,7 +545,7 @@ public:
 				e1 += dy1;
 				while (e1 >= dx1) {
 					e1 -= dx1;
-					if (changed1) { t1xp = signx1; break; }//t1x += signx1;
+					if (changed1) { t1xp = signx1; break; }
 					else          goto next3;
 				}
 				if (changed1) break;
@@ -584,6 +580,7 @@ public:
 
 	void DrawCircle(int xc, int yc, int r, short c = 0x2588, short col = 0x000F)
 	{
+		
 		int x = 0;
 		int y = r;
 		int p = 3 - 2 * r;
@@ -700,7 +697,7 @@ public:
 
 	~ConsoleGameEngine()
 	{
-		SetConsoleActiveScreenBuffer(m_hOriginalConsole);
+		SetConsoleActiveScreenBuffer(originalConsole);
 		delete[] buffScreen;
 	}
 
@@ -870,17 +867,15 @@ private:
 			//	// Close and Clean up audio system
 			//}
 
-			// Allow the user to free resources if they have overrided the destroy function
+			// Custom destroy if needed
 			if (OnUserDestroy())
 			{
-				// User has permitted destroy, so exit and clean up
 				delete[] buffScreen;
-				SetConsoleActiveScreenBuffer(m_hOriginalConsole);
+				SetConsoleActiveScreenBuffer(originalConsole);
 				gameFinished.notify_one();
 			}
 			else
 			{
-				// User denied destroy for some reason, so continue running
 				atomActive = true;
 			}
 		}
@@ -921,16 +916,14 @@ protected:
 	{
 		wchar_t buf[256];
 		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 256, NULL);
-		SetConsoleActiveScreenBuffer(m_hOriginalConsole);
+		SetConsoleActiveScreenBuffer(originalConsole);
 		wprintf(L"ERROR: %s\n\t%s\n", msg, buf);
 		return 0;
 	}
 
 	static BOOL CloseHandler(DWORD evt)
 	{
-		// Note this gets called in a seperate OS thread, so it must
-		// only exit when the game has finished cleaning up, or else
-		// the process will be killed before OnUserDestroy() has finished
+
 		if (evt == CTRL_CLOSE_EVENT)
 		{
 			atomActive = false;
@@ -947,8 +940,8 @@ protected:
 	int windowHeight;
 	CHAR_INFO *buffScreen;
 	std::wstring appName;
-	HANDLE m_hOriginalConsole;
-	CONSOLE_SCREEN_BUFFER_INFO m_OriginalConsoleInfo;
+	HANDLE originalConsole;
+	CONSOLE_SCREEN_BUFFER_INFO originalConsoleInfo;
 	HANDLE console;
 	HANDLE consoleIn;
 	SMALL_RECT rectWindow;
@@ -958,8 +951,7 @@ protected:
 	bool mouseNewState[5] = { 0 };
 	bool isConsoleInFocus = true;
 
-	// These need to be static because of the OnDestroy call the OS may make. The OS
-	// spawns a special thread just for that
+	//set these in the lowest cpp class in use (the one with main)
 	static std::atomic<bool> atomActive;
 	static std::condition_variable gameFinished;
 	static std::mutex muxGame;
