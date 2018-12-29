@@ -157,7 +157,9 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="CellularAutomata.h" />
+    <ClInclude Include="CirclePhysics.h" />
     <ClInclude Include="ConsoleGameEngine.h" />
     <ClInclude Include="Mazes.h" />
   </ItemGroup>

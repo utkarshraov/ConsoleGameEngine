@@ -52,7 +52,7 @@ private:
 					state[y*windowWidth + x] = neighbours == 3;
 
 				if (cell(x, y) == 1)
-					Draw(x, y, PIXEL_SOLID, rand()%16);
+					Draw(x, y, PIXEL_SOLID, rand()%2 + 12);
 				else
 					Draw(x, y, PIXEL_SOLID, FG_BLACK);
 			}

@@ -1,5 +1,5 @@
 #pragma once
-#include "CellularAutomata.h"
+#include "CirclePhysics.h"
 using namespace std;
 // Define our static variables from the game engine
 std::atomic<bool> ConsoleGameEngine::atomActive(false);
@@ -11,8 +11,8 @@ std::mutex ConsoleGameEngine::muxGame;
 int main()
 {
 	srand(clock());
-	CellularAutomata game;
-	game.ConstructConsole(160, 100, 8, 8);
+	CirclePhysics game;
+	game.ConstructConsole(160, 120, 8, 8);
 	game.StartThread();
 	return 0;
 }

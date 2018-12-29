@@ -59,6 +59,53 @@ enum PIXEL_TYPE
 	PIXEL_QUARTER = 0x2591,
 };
 
+class Vector2
+{
+public: 
+	float x;
+	float y;
+	Vector2()
+	{
+		x = y = 0;
+	}
+	Vector2(float a, float b) { x = a; y = b; }
+
+	Vector2(int a, int b) { x = (float)a; y = (float)b; }
+
+	inline Vector2 operator - (Vector2 rhs)
+	{
+		return Vector2(x - rhs.x, y - rhs.y);
+	}
+	inline Vector2 operator + (Vector2 rhs)
+	{
+		return Vector2(x + rhs.x, y + rhs.y);
+	}
+	inline Vector2 operator*(float a)
+	{
+		return Vector2(x * a, y* a);
+	}
+	inline Vector2 operator/(float a)
+	{
+		return Vector2(x / a, y/ a);
+	}
+	Vector2 normalise()
+	{
+		if (magnitude() != 0)
+			return Vector2(x / magnitude(), y / magnitude());
+		else
+			return Vector2(0, 0);
+	}
+
+	friend float dot(Vector2 lhs, Vector2 rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y;
+	}
+	float magnitude()
+	{
+		return sqrtf(x * x + y * y);
+	}
+};
+
 class Sprite
 {
 	//A class to create and store Sprites (as groups of pixels)
@@ -615,8 +662,6 @@ public:
 
 	void DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, short c = PIXEL_SOLID)
 	{
-		// pair.first = x coordinate
-		// pair.second = y coordinate
 
 		// Create translated model vector of coordinate pairs
 		std::vector<std::pair<float, float>> vecTransformedCoordinates;
@@ -751,7 +796,7 @@ private:
 					{
 					case FOCUS_EVENT:
 					{
-						m_bConsoleInFocus = inBuf[i].Event.FocusEvent.bSetFocus;
+						isConsoleInFocus = inBuf[i].Event.FocusEvent.bSetFocus;
 					}
 					break;
 
@@ -868,7 +913,7 @@ public:
 	int GetMouseX() { return mousePosX; }
 	int GetMouseY() { return mousePosY; }
 	KeyState GetMouse(int nMouseButtonID) { return mouse[nMouseButtonID]; }
-	bool IsFocused() { return m_bConsoleInFocus; }
+	bool IsFocused() { return isConsoleInFocus; }
 
 
 protected:
@@ -911,7 +956,7 @@ protected:
 	short newKeyState[256] = { 0 };
 	bool mouseOldState[5] = { 0 };
 	bool mouseNewState[5] = { 0 };
-	bool m_bConsoleInFocus = true;
+	bool isConsoleInFocus = true;
 
 	// These need to be static because of the OnDestroy call the OS may make. The OS
 	// spawns a special thread just for that

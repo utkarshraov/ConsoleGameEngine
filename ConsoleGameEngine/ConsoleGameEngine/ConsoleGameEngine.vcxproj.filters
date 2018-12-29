@@ -19,6 +19,12 @@
     <Filter Include="CellularAutomata">
       <UniqueIdentifier>{87267a97-1c8d-4d93-ad79-889b834777a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AStar">
+      <UniqueIdentifier>{14861128-f960-4ccb-a56e-68a3bcd00525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Circle Physics">
+      <UniqueIdentifier>{83ae68e2-7c81-43d9-9425-cb337e53e9f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleGameEngine.h">
@@ -29,6 +35,12 @@
     </ClInclude>
     <ClInclude Include="CellularAutomata.h">
       <Filter>CellularAutomata</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>AStar</Filter>
+    </ClInclude>
+    <ClInclude Include="CirclePhysics.h">
+      <Filter>Circle Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
