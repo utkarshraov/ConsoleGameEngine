@@ -166,6 +166,7 @@
     <ClInclude Include="ConsoleGameEngine.h" />
     <ClInclude Include="Mazes.h" />
     <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="SpriteEditor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
