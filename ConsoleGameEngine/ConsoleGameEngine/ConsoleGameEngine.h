@@ -372,7 +372,7 @@ public:
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0x2588, short col = 0x000F)
 	{
 		//draw a line between two points
-		//TO DO: use vector2 instead of separate floats (or is that no worth it??)
+		//TO DO: use vector2 instead of separate floats (or is that not worth it??)
 		int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
 		dx = x2 - x1; dy = y2 - y1;
 		dx1 = abs(dx); dy1 = abs(dy);
@@ -489,7 +489,7 @@ public:
 				e1 += dy1;
 				while (e1 >= dx1) {
 					e1 -= dx1;
-					if (changed1) t1xp = signx1;//t1x += signx1;
+					if (changed1) t1xp = signx1;
 					else          goto next1;
 				}
 				if (changed1) break;
@@ -729,16 +729,6 @@ private:
 		if (!Start())
 			atomActive = false;
 
-		//// Check if sound system should be enabled
-		//if (m_bEnableSound)
-		//{
-		//	if (!CreateAudio())
-		//	{
-		//		atomActive = false; // Failed to create audio system			
-		//		m_bEnableSound = false;
-		//	}
-		//}
-
 		auto tp1 = std::chrono::system_clock::now();
 		auto tp2 = std::chrono::system_clock::now();
 
@@ -862,10 +852,6 @@ private:
 				WriteConsoleOutput(console, buffScreen, { (short)windowWidth, (short)windowHeight }, { 0,0 }, &rectWindow);
 			}
 
-			//if (m_bEnableSound)
-			//{
-			//	// Close and Clean up audio system
-			//}
 
 			// Custom destroy if needed
 			if (OnUserDestroy())
