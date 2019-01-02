@@ -25,6 +25,12 @@
     <Filter Include="Circle Physics">
       <UniqueIdentifier>{83ae68e2-7c81-43d9-9425-cb337e53e9f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Angry Birds">
+      <UniqueIdentifier>{17842aef-9ebd-4bd3-8ef6-0bb229ee6d16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PerlinNoise">
+      <UniqueIdentifier>{86b771c1-8c1c-44bf-8f65-8dba1acfbf38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleGameEngine.h">
@@ -42,10 +48,22 @@
     <ClInclude Include="CirclePhysics.h">
       <Filter>Circle Physics</Filter>
     </ClInclude>
+    <ClInclude Include="AngryBirds.h">
+      <Filter>Angry Birds</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>PerlinNoise</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AngryBirds.cpp">
+      <Filter>Angry Birds</Filter>
+    </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp">
+      <Filter>PerlinNoise</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #pragma once
 #include "ConsoleGameEngine.h"
-
+using namespace std;
 
 class CellularAutomata : public ConsoleGameEngine
 {
@@ -29,6 +29,8 @@ private:
 
 	virtual bool Update(float elapsedTime)
 	{
+		
+		this_thread::sleep_for(5ms);
 		auto cell = [&](int x, int y)
 		{
 			return output[y* windowWidth + x];

@@ -154,14 +154,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AngryBirds.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AngryBirds.h" />
     <ClInclude Include="AStar.h" />
     <ClInclude Include="CellularAutomata.h" />
     <ClInclude Include="CirclePhysics.h" />
     <ClInclude Include="ConsoleGameEngine.h" />
     <ClInclude Include="Mazes.h" />
+    <ClInclude Include="PerlinNoise.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
